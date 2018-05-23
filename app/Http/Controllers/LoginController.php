@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Auth;
 use Session;
 use Redirect;
 
@@ -58,11 +59,17 @@ class LoginController extends Controller
 
         //print_r($request->session()->get('activeUser',$data));
 
-        if(session()->get('activeUser') != "") {
+        if(!Auth::attempt(['email' => $request->input('USER_NAME'), 'password' => $request->input('USER_PASSWORD')])) {
+            return redirect()->back();
+        }
+
+
+        /*if(session()->get('activeUser') != "") {
             Redirect::to('akun')->send()->with(session()->get('activeUser'));
         } else {
-            echo "gagal login";
-        }
+            return redirect()->back();
+        }*/
+
         //print_r(session()->get('activeUser')->USER_ID);
 
         /*if(session()->get('activeUser')->USER_ID != "") {
